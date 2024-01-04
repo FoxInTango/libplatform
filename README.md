@@ -1,0 +1,2 @@
+# libplatform
+Platform Abstract Layer.
