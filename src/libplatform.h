@@ -2,6 +2,8 @@
 #define _LIB_PLATFORM_H_
 #include <libcpp/libcpp.h>
 
+#include "event/reactor.h"
+
 namespaceBegin(foxintango)
 EXTERN_C_BEGIN
 
