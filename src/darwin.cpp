@@ -13,6 +13,6 @@ PlatformEventReactor::~PlatformEventReactor() {}
 PlatformEventReactor::PlatformEventReactor() {}
 PlatformEventReactor::~PlatformEventReactor() {}
 #endif
-#endif //PLATFORM_LINUX
+#endif //PLATFORM_DARWIN
 
 #endif //_LIB_PLATFORM_DARWIN_H_
