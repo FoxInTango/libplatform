@@ -25,6 +25,19 @@ platform_set();
 /** network
  */
 
+ /** UI
+  *  UINativeWindow
+  *  UINativeView
+  *  UINativeText
+  *  
+  */
+
+/** GPU
+ *  VkRenderTarget
+ *  VkRenderer
+ *  VkTexture
+ *  VkBuffer
+ */
 EXTERN_C_END
 namespaceEnd
 #endif
