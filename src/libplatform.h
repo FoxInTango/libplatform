@@ -7,18 +7,44 @@
 namespaceBegin(foxintango)
 EXTERN_C_BEGIN
 
-platform_open();
-platform_close();
-platform_read();
-platform_write();
-platform_set();
+/** platform handles
+ */
+#if defined(WIN32) || defined(_WIN32) || defined(_WIN32_) || defined(WIN64) || defined(_WIN64) || defined(_WIN64_)
+#ifdef foxintangoEXPORT
+#if defined(_USRDLL)
+#define foxintangoAPI __declspec(dllexport)
+#else 
+#define foxintangoAPI
+#endif
+#else
+#if defined(_USRDLL)
+#define foxintangoAPI __declspec(dllimport)
+#else
+#define foxintangoAPI
+#endif
+#endif
+#elif defined(ANDROID) || defined(_ANDROID_)
+#define foxintangoAPI __attribute__ ((visibility("default")))
+#elif defined(__linux__)
+#define foxintangoAPI __attribute__ ((visibility("default")))
+#elif defined(__APPLE__) || defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR) || defined(TARGET_OS_MAC)
+#define foxintangoAPI __attribute__ ((visibility("default")))
+#else
+#define foxintangoAPI
+#endif
+
+Error platform_open();
+Error platform_close();
+Error platform_read();
+Error platform_write();
+Error platform_set();
 
 /** Event
  */
 
- platform_listen();
- platform_connect();
- platform_disconnect();
+Error platform_listen();
+Error platform_connect();
+Error platform_disconnect();
 
 /** filesystem
  */
