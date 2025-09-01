@@ -1,7 +1,7 @@
 #ifndef _LIB_PLATFORM_LINUX_H_
 #define _LIB_PLATFORM_LINUX_H_
 
-#include "libplatform.h"
+#include "../libplatform.h"
 using namespace foxintango;
 
 #ifdef PLATFORM_LINUX

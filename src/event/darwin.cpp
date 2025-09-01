@@ -1,18 +1,18 @@
-#ifndef _LIB_PLATFORM_WIN32_H_
-#define _LIB_PLATFORM_WIN32_H_
-#include "libplatform.h"
+#ifndef _LIB_PLATFORM_DARWIN_H_
+#define _LIB_PLATFORM_DARWIN_H_
+#include "../libplatform.h"
 using namespace foxintango;
 
-#ifdef PLATFORM_WIN
-#ifdef PLATFORM_WIN32_API
+#ifdef PLATFORM_DARWIN
+#ifdef PLATFORM_DARWIN_API
 PlatformEventReactor::PlatformEventReactor() {}
 PlatformEventReactor::~PlatformEventReactor() {}
 #endif
 
-#ifdef PLATFORM_WIN32_KPI
+#ifdef PLATFORM_DARWIN_KPI
 PlatformEventReactor::PlatformEventReactor() {}
 PlatformEventReactor::~PlatformEventReactor() {}
 #endif
-#endif // PLATFORM_WIN
+#endif //PLATFORM_DARWIN
 
-#endif //_LIB_PLATFORM_WIN32_H_
+#endif //_LIB_PLATFORM_DARWIN_H_
