@@ -13,6 +13,7 @@ EXTERN_C_BEGIN
 #include <sys/epoll.h>
 class PlatformEventEndpointContext;
 class PlatformEventReactorContext;
+/*
 class PlatformEvent{
 public:
     PlatformEventEndpointContext* endpoint;
@@ -23,7 +24,7 @@ public:
     PlatformEvent(size_t buffer_size);
    ~PlatformEvent();
 };
-
+*/
 class foxintangoAPI PlatformEventHandler{
 public:
     enum EventStatus{

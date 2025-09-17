@@ -7,12 +7,13 @@
 
 #include "EventEndpoint.h"
 #include <libcpp/libcpp.h>
+#include <set>
 namespaceBegin(foxintango)
 EXTERN_C_BEGIN
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
-class foxintangoAPI PlatformEventReactorContext {
+class foxintangoAPI PlatformEventReactorContext{
 public:
  int    epoll;
  struct epoll_event  event;
@@ -20,6 +21,8 @@ public:
  size_t bufferSize;
  size_t eventCount;
  size_t threadCount;
+ char*  buffer;
+ std::set<Thread*> threads;
 public:
     PlatformEventReactorContext();
     virtual ~PlatformEventReactorContext();

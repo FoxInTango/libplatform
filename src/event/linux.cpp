@@ -3,6 +3,7 @@
 
 #include "EventEndpoint.h"
 #include "EventReactor.h"
+#include <libcpp/libcpp.h>
 using namespace foxintango;
 #include <vector>
 #include <sys/epoll.h>
@@ -17,8 +18,6 @@ extern size_t PLATFORM_EVENT_BUFFER_SIZE;
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 /** Event
- *
- * */
 PlatformEvent::PlatformEvent(){}
 PlatformEvent::PlatformEvent(size_t _size){
     data = new char[_size];
@@ -29,6 +28,7 @@ PlatformEvent::PlatformEvent(size_t _size){
 PlatformEvent::~PlatformEvent(){
     if(data) delete[] data;
 }
+*/
 /** Endpoint
  * 
  * */
@@ -55,40 +55,19 @@ public:
        if(data) delete[] data;
    }
 };
-inline PlatformEvent* platform_event_fetch_event(const PlatformEventReactorContext* r,const PlatformEventEndpointContext* e){
+inline Event* platform_event_fetch_event(const PlatformEventReactorContext* r,const PlatformEventEndpointContext* e){
 	    assert(r);
 	    assert(e);
 
             size_t r_size = 0;//       Readed Size
-	    size_t t_size = 0;// Total Readed Size
-            std::vector<PlatformEventBuffer*> event_buffers;
-	    PlatformEventBuffer* buffer = new PlatformEventBuffer(r->bufferSize);
-            if(!buffer){
-                printf("platform_event_fetch_event failed with buffer allocate failed.%s:%s\n",__FILE__,__func__);
-                assert(buffer);
+            Event* event = new Event();
+	    if(!event){
+                printf("platform_event_fetch_event Event* e = new Event Failed.%s:%s\n",__FILE__,__func__);
+		assert(event);
 	    }
-	    while((r_size = read(e->fd,buffer->data,r->bufferSize))){
-                 buffer->size = r_size;
-                 event_buffers.push_back(buffer);
-		 t_size += r_size;
-                 buffer = new PlatformEventBuffer(r->bufferSize);
-                 if(!buffer){
-                    printf("platform_event_fetch_event failed with buffer allocate failed.%s:%s\n",__FILE__,__func__);
-                    for(std::vector<PlatformEventBuffer*>::iterator iter = event_buffers.begin();iter != event_buffers.end();iter ++){
-                        delete *iter;
-                    }
-                    assert(buffer);
-                 }
+	    while((r_size = read(e->fd,r->buffer,r->bufferSize))){
+                event->buffer.append(r->buffer);
             }
-            PlatformEvent* event = new PlatformEvent(t_size);
-	    size_t offset = 0;
-            if(event){
-                for(std::vector<PlatformEventBuffer*>::iterator iter = event_buffers.begin();iter != event_buffers.end();iter ++){
-                    memcpy(event->data,(*iter)->data + offset,(*iter)->size);
-		    offset += (*iter)->size;
-		}
-            }
-
 	    return event;
 
 }
@@ -98,7 +77,7 @@ PlatformEventHandler::EventStatus PlatformEventEndpointContext::handleEvent(){
             return PlatformEventHandler::UNTOUCHED;
         }break;
 	case PEET_UNIX_SOCKET_LISTEN:{
-            PlatformEvent* e = platform_event_fetch_event(this->reactor,this);
+             Event* e = platform_event_fetch_event(this->reactor,this);
 	}break;
 	case PEET_UNIX_SOCKET_CONNECT:{}break;
 	case PEET_NETLINK_SOCKET_LISTEN:{}break;
@@ -123,10 +102,13 @@ PlatformEventReactorContext::PlatformEventReactorContext(){
 
 PlatformEventReactorContext::~PlatformEventReactorContext(){
     if(events) delete[] events;
+    if(buffer) delete[] buffer;
 }
 
 int PlatformEventReactorContext::prepare(){
     events = new epoll_event[eventCount];
+    buffer = new char[bufferSize];
+    // std::thread
     return events ? 1 : 0;
 }
 
