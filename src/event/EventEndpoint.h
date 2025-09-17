@@ -5,18 +5,17 @@
 #ifndef _LIB_PLATFORM_ENDPOINT_H_
 #define _LIB_PLATFORM_ENDPOINT_H_
 
-#include "EventEndpoint.h"
 #include <libcpp/libcpp.h>
 namespaceBegin(foxintango)
 EXTERN_C_BEGIN
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
-class PlatformEventEndpoint;
-class PlatformEventReactor;
+class PlatformEventEndpointContext;
+class PlatformEventReactorContext;
 class PlatformEvent{
 public:
-    PlatformEventEndpoint* endpoint;
+    PlatformEventEndpointContext* endpoint;
     size_t size;
     char*  data;
 public:
@@ -37,27 +36,7 @@ public:
 public:
     virtual EventStatus handleEvent();
 };
-class foxintangoAPI PlatformEventEndpointContext {
-public:
-    int fd;
-public:
-    PlatformEventEndpointContext();
-    virtual ~PlatformEventEndpointContext();
-};
-
-#endif
-
-#ifdef PLATFORM_LINUX_KPI
-#endif
-#endif
-
-typedef struct _PlatformEventEndpointInfo{
-char* location;
-int   port;
-int   protocol;
-}PlatformEventEndpointInfo;
-class foxintangoAPI PlatformEventEndpoint :public PlatformEventEndpointContext,PlatformEventHandler{
-friend class PlatformEventReactor;
+class foxintangoAPI PlatformEventEndpointContext :public PlatformEventHandler{
 public:
     enum Type{
               PEET_UNKNOWN,
@@ -70,16 +49,22 @@ public:
               PEET_UDP_SOCKET_LISTEN,
 	      PEET_UDP_SOCKET_CONNECT
               };
-protected:
-    PlatformEventReactor* reactor;
 public:
+    int  fd;
     Type type;
+    PlatformEventReactorContext* reactor;
 public:
-    PlatformEventEndpoint();
-   ~PlatformEventEndpoint();
+    PlatformEventEndpointContext();
+    virtual ~PlatformEventEndpointContext();
 public:
     virtual EventStatus handleEvent();
 };
+
+#endif
+
+#ifdef PLATFORM_LINUX_KPI
+#endif
+#endif
 EXTERN_C_END
 namespaceEnd
 #endif

@@ -41,15 +41,6 @@ PlatformEventHandler::EventStatus PlatformEventHandler::handleEvent(){
 PlatformEventEndpointContext::PlatformEventEndpointContext(){}
 PlatformEventEndpointContext::~PlatformEventEndpointContext(){}
 
-typedef struct _PlatformEventEndpointInfo{
-char* location;
-int   port;
-int   protocol;
-}PlatformEventEndpointInfo;
-
-PlatformEventEndpoint::PlatformEventEndpoint(){}
-PlatformEventEndpoint::~PlatformEventEndpoint(){}
-
 class PlatformEventBuffer{
 public:
     size_t size;
@@ -64,23 +55,23 @@ public:
        if(data) delete[] data;
    }
 };
-inline PlatformEvent* platform_event_fetch_event(const PlatformEventReactorContext* context,const PlatformEventEndpoint* endpoint){
-	    assert(context);
-	    assert(endpoint);
+inline PlatformEvent* platform_event_fetch_event(const PlatformEventReactorContext* r,const PlatformEventEndpointContext* e){
+	    assert(r);
+	    assert(e);
 
             size_t r_size = 0;//       Readed Size
 	    size_t t_size = 0;// Total Readed Size
             std::vector<PlatformEventBuffer*> event_buffers;
-	    PlatformEventBuffer* buffer = new PlatformEventBuffer(context->bufferSize);
+	    PlatformEventBuffer* buffer = new PlatformEventBuffer(r->bufferSize);
             if(!buffer){
                 printf("platform_event_fetch_event failed with buffer allocate failed.%s:%s\n",__FILE__,__func__);
                 assert(buffer);
 	    }
-	    while((r_size = read(endpoint->fd,buffer->data,context->bufferSize))){
+	    while((r_size = read(e->fd,buffer->data,r->bufferSize))){
                  buffer->size = r_size;
                  event_buffers.push_back(buffer);
 		 t_size += r_size;
-                 buffer = new PlatformEventBuffer(context->bufferSize);
+                 buffer = new PlatformEventBuffer(r->bufferSize);
                  if(!buffer){
                     printf("platform_event_fetch_event failed with buffer allocate failed.%s:%s\n",__FILE__,__func__);
                     for(std::vector<PlatformEventBuffer*>::iterator iter = event_buffers.begin();iter != event_buffers.end();iter ++){
@@ -101,7 +92,7 @@ inline PlatformEvent* platform_event_fetch_event(const PlatformEventReactorConte
 	    return event;
 
 }
-PlatformEventHandler::EventStatus PlatformEventEndpoint::handleEvent(){
+PlatformEventHandler::EventStatus PlatformEventEndpointContext::handleEvent(){
     switch(type){
         case PEET_UNKNOWN:{
             return PlatformEventHandler::UNTOUCHED;
@@ -154,9 +145,9 @@ void event_reactor_process(PlatformEventReactorContext* context){
             return;
 	}
         for (int n = 0; n < ew_count; ++ n) {
-           PlatformEventEndpoint* ep = (PlatformEventEndpoint*)context->events[n].data.ptr;
-	   if(ep){
-               ep->handleEvent();
+           PlatformEventEndpointContext* e = (PlatformEventEndpointContext*)context->events[n].data.ptr;
+	   if(e){
+               e->handleEvent();
 	   }
         }
     }
@@ -168,28 +159,4 @@ void event_reactor_process(PlatformEventReactorContext* context){
 #endif
 #endif //PLATFORM_LINUX
 
-PlatformEventReactor::PlatformEventReactor(const PlatformEventReactorCreateInfo& info) {
-    bufferSize  = info.BufferSize;
-    eventCount  = info.EventCount;
-    threadCount = info.ThreadCount;
-    prepare();
-    for(size_t i = 0;i < threadCount;i ++) {
-        std::thread t(event_reactor_process,this);
-	t.detach();
-    }
-}
-PlatformEventReactor::~PlatformEventReactor() {}
-int PlatformEventReactor::acceptEndpoint(PlatformEventEndpoint* e){
-    assert(e);
-
-    e->reactor = this;
-
-    // PlatformEventContext::add
-    return 0;
-}
-int PlatformEventReactor::remvoeEndpoint(PlatformEventEndpoint* e){
-    assert(e);
-
-    return 0;
-}
 #endif //_LIB_PLATFORM_LINUX_H_

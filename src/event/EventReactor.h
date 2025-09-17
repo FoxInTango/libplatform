@@ -32,31 +32,6 @@ public:
 #ifdef PLATFORM_LINUX_KPI
 #endif
 #endif
-
-class foxintangoAPI PlatformEventReactorProcessHandler{
-public:
-public:
-    PlatformEventReactorProcessHandler();
-    virtual ~PlatformEventReactorProcessHandler();
-public:
-    //virtual int 
-};
-typedef struct _PlatformEventReactorCreateInfo{
-    size_t BufferSize;
-    size_t EventCount;
-    size_t ThreadCount;
-}PlatformEventReactorCreateInfo;
-class foxintangoAPI PlatformEventReactor :public PlatformEventReactorContext{ 
-public:
-    PlatformEventReactor(const PlatformEventReactorCreateInfo& info);
-   ~PlatformEventReactor();
-public:
-   void attach();
-   void detach();
-public:
-   int acceptEndpoint(PlatformEventEndpoint* endpoint);
-   int remvoeEndpoint(PlatformEventEndpoint* endpoint);
-};
 EXTERN_C_END
 namespaceEnd
 #endif
