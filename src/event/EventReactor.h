@@ -54,8 +54,8 @@ public:
    void attach();
    void detach();
 public:
-   void acceptEndpoint(PlatformEventEndpoint* endpoint);
-   void remvoeEndpoint(PlatformEventEndpoint* endpoint);
+   int acceptEndpoint(PlatformEventEndpoint* endpoint);
+   int remvoeEndpoint(PlatformEventEndpoint* endpoint);
 };
 EXTERN_C_END
 namespaceEnd

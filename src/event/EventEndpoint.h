@@ -39,6 +39,8 @@ public:
 };
 class foxintangoAPI PlatformEventEndpointContext {
 public:
+    int fd;
+public:
     PlatformEventEndpointContext();
     virtual ~PlatformEventEndpointContext();
 };
