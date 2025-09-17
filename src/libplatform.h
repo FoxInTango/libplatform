@@ -1,12 +1,11 @@
 #ifndef _LIB_PLATFORM_H_
 #define _LIB_PLATFORM_H_
-#include <libcpp/libcpp.h>
 
 #include "event/EventReactor.h"
 
-namespaceBegin(foxintango)
 EXTERN_C_BEGIN
+namespaceBegin(foxintango)
 
-EXTERN_C_END
 namespaceEnd
+EXTERN_C_END
 #endif

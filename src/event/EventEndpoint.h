@@ -6,8 +6,8 @@
 #define _LIB_PLATFORM_ENDPOINT_H_
 
 #include <libcpp/libcpp.h>
-namespaceBegin(foxintango)
 EXTERN_C_BEGIN
+namespaceBegin(foxintango)
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
@@ -66,6 +66,6 @@ public:
 #ifdef PLATFORM_LINUX_KPI
 #endif
 #endif
-EXTERN_C_END
 namespaceEnd
+EXTERN_C_END
 #endif
