@@ -5,11 +5,13 @@ install.header:
 ifneq ($(wildcard $(HEADER_INSTALL_PATH)),)
 	-rm -rf $(HEADER_INSTALL_PATH)/$(TARGET_NAME)
 	-mkdir  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)
+	-mkdir  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/handle
 	-mkdir  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/event
 	-mkdir  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/wsi
-	-cd src       && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)
-	-cd src/event && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/event
-	-cd src/wsi   && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/wsi
+	-cd src        && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)
+	-cd src/handle && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/handle
+	-cd src/event  && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/event
+	-cd src/wsi    && cp *.h  $(HEADER_INSTALL_PATH)/$(TARGET_NAME)/wsi
 endif
 install.bin:
 ifneq ($(wildcard $(BINARY_INSTALL_PATH)),)

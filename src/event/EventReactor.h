@@ -28,6 +28,7 @@ public:
     virtual ~PlatformEventReactorContext();
 public:
     int prepare();
+public:
 };
 
 #endif

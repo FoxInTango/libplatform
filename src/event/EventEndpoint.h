@@ -11,33 +11,9 @@ namespaceBegin(foxintango)
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
-class PlatformEventEndpointContext;
+class PlatformEventSessionContext;
 class PlatformEventReactorContext;
-/*
-class PlatformEvent{
-public:
-    PlatformEventEndpointContext* endpoint;
-    size_t size;
-    char*  data;
-public:
-    PlatformEvent();
-    PlatformEvent(size_t buffer_size);
-   ~PlatformEvent();
-};
-*/
-class foxintangoAPI PlatformEventHandler{
-public:
-    enum EventStatus{
-        UNTOUCHED,
-	DILLED
-    };
-public:
-    PlatformEventHandler();
-    virtual ~PlatformEventHandler();
-public:
-    virtual EventStatus handleEvent();
-};
-class foxintangoAPI PlatformEventEndpointContext :public PlatformEventHandler{
+class foxintangoAPI PlatformEventEndpointContext{
 public:
     enum Type{
               PEET_UNKNOWN,
@@ -58,7 +34,10 @@ public:
     PlatformEventEndpointContext();
     virtual ~PlatformEventEndpointContext();
 public:
-    virtual EventStatus handleEvent();
+    int attach(PlatformEventReactorContext* reactor);
+    int detach();
+public:
+    
 };
 
 #endif
