@@ -11,6 +11,8 @@ namespaceBegin(foxintango)
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
+#include <string>
+#include <map>
 class PlatformEventSessionContext;
 class PlatformEventReactorContext;
 class foxintangoAPI PlatformEventEndpointContext{
@@ -29,6 +31,7 @@ public:
 public:
     int  fd;
     Type type;
+    std::map<std::string,PlatformEventSessionContext*> seesionMap;
     PlatformEventReactorContext* reactor;
 public:
     PlatformEventEndpointContext();
