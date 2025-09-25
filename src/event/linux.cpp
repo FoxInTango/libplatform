@@ -16,6 +16,11 @@ using namespace foxintango;
 
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
+/** Handler
+ * */
+PlatformEventHandler::PlatformEventHandler(){}
+PlatformEventHandler::~PlatformEventHandler(){}
+void PlatformEventHandler::handlePlatformEvent(){}
 /** Session
  *
  * */
@@ -139,9 +144,9 @@ void event_reactor_process(PlatformEventReactorContext* context){
             return;
 	}
         for (int n = 0; n < ew_count; ++ n) {
-           PlatformEventSessionContext* session = (PlatformEventSessionContext*)context->events[n].data.ptr;
-	   if(session){
-               session->receive();
+           PlatformEventHandler* handler = (PlatformEventHandler*)context->events[n].data.ptr;
+	   if(handler){
+               handler->handlePlatformEvent();
 	   }
         }
     }

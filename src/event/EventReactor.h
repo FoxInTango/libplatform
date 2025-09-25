@@ -6,6 +6,7 @@
 #define _LIB_PLATFORM_REACTOR_H_
 
 #include "EventEndpoint.h"
+#include "EventHandler.h"
 #include <libcpp/libcpp.h>
 #include <set>
 EXTERN_C_BEGIN

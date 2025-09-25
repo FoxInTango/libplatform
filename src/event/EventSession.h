@@ -1,6 +1,7 @@
 #ifndef _LIB_PLATFORM_SESSION_H_
 #define _LIB_PLATFORM_SESSION_H_
 
+#include "EventHandler.h"
 #include <libcpp/libcpp.h>
 EXTERN_C_BEGIN
 namespaceBegin(foxintango)
@@ -36,7 +37,7 @@ union {
     PlatformFilesystemInfo filesystem;
 };
 };
-class foxintangoAPI PlatformEventSessionContext:public EventSessionInterface{
+class foxintangoAPI PlatformEventSessionContext:public EventSessionInterface,PlatformEventHandler{
 public:
     enum Type{
               PEST_UNKNOWN,

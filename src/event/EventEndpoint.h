@@ -4,18 +4,18 @@
 
 #ifndef _LIB_PLATFORM_ENDPOINT_H_
 #define _LIB_PLATFORM_ENDPOINT_H_
-
+#include "EventHandler.h"
 #include <libcpp/libcpp.h>
-EXTERN_C_BEGIN
-namespaceBegin(foxintango)
 #ifdef PLATFORM_LINUX
 #ifdef PLATFORM_LINUX_API
 #include <sys/epoll.h>
 #include <string>
 #include <map>
+EXTERN_C_BEGIN
+namespaceBegin(foxintango)
 class PlatformEventSessionContext;
 class PlatformEventReactorContext;
-class foxintangoAPI PlatformEventEndpointContext{
+class foxintangoAPI PlatformEventEndpointContext:public PlatformEventHandler{
 public:
     enum Type{
               PEET_UNKNOWN,
